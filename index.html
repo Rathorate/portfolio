@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio — AI / Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  :root{
+    --bg:#0b0f19;
+    --bg-alt:#0d1220;
+    --surface:#111726;
+    --border:#1e293b;
+    --border-soft:#182033;
+    --text:#e6eaf2;
+    --text-dim:#8b96ad;
+    --text-faint:#5b6577;
+    --blue:#3b82f6;
+    --violet:#8b5cf6;
+    --cyan:#22d3ee;
+    --grad: linear-gradient(120deg, var(--blue), var(--violet));
+  }
+  html{scroll-behavior:smooth;}
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  body.light{
+    --bg:#f6f7fb;
+    --bg-alt:#ffffff;
+    --surface:#ffffff;
+    --border:#e3e6ee;
+    --border-soft:#eceef4;
+    --text:#111726;
+    --text-dim:#4b5468;
+    --text-faint:#8b96ad;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .display{font-family:'Space Grotesk', sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--cyan); outline-offset:2px; border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(14px);
+    background:color-mix(in srgb, var(--bg) 72%, transparent);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1120px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:8px;font-family:'Space Grotesk';font-weight:700;font-size:17px;letter-spacing:-0.01em;}
+  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px var(--cyan);}
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{font-size:14px;color:var(--text-dim);transition:color .2s;position:relative;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--cyan);transition:width .25s;}
+  .nav-links a:hover::after{width:100%;}
+  .icon-btn{
+    width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--surface);
+    color:var(--text-dim); transition:border-color .2s,color .2s;
+  }
+  .icon-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+  .mobile-toggle{display:none;}
+  @media (max-width:800px){
+    .nav-links{position:fixed;top:69px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border-soft);
+      flex-direction:column;padding:20px 24px;gap:18px;transform:translateY(-140%);transition:transform .3s ease;}
+    .nav-links.open{transform:translateY(0);}
+    .mobile-toggle{display:flex;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:96px 0 80px;position:relative;overflow:hidden;}
+  .hero::before{
+    content:"";position:absolute;top:-200px;right:-160px;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle, color-mix(in srgb, var(--violet) 30%, transparent), transparent 70%);
+    filter:blur(10px); pointer-events:none;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:48px;}}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono';font-size:12.5px;color:var(--cyan);
+    border:1px solid var(--border); background:var(--surface); padding:6px 12px; border-radius:100px; margin-bottom:22px;
+  }
+  .eyebrow .pulse{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+  h1.headline{
+    font-family:'Space Grotesk';font-weight:700;font-size:clamp(34px,5.2vw,58px);line-height:1.06;letter-spacing:-0.02em;margin:0 0 22px;
+  }
+  h1.headline .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{color:var(--text-dim);font-size:17px;line-height:1.65;max-width:520px;margin-bottom:32px;}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    padding:13px 24px;border-radius:10px;font-size:14.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+    transition:transform .2s, box-shadow .2s, border-color .2s, background .2s;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 24px -8px color-mix(in srgb, var(--blue) 60%, transparent);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px -8px color-mix(in srgb, var(--violet) 65%, transparent);}
+  .btn-ghost{background:var(--surface);border-color:var(--border);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px);}
+
+  /* terminal signature element */
+  .terminal{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.6);
+  }
+  .term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border-soft);background:var(--bg-alt);}
+  .term-bar span{width:10px;height:10px;border-radius:50%;}
+  .term-bar .r{background:#ef4444;}.term-bar .y{background:#f59e0b;}.term-bar .g{background:#22c55e;}
+  .term-title{margin-left:8px;font-family:'JetBrains Mono';font-size:12px;color:var(--text-faint);}
+  .term-body{padding:22px 20px;font-family:'JetBrains Mono';font-size:13.5px;line-height:1.9;min-height:230px;}
+  .term-body .l1{color:var(--text-faint);}
+  .term-body .key{color:var(--violet);}
+  .term-body .str{color:var(--cyan);}
+  .term-body .com{color:var(--text-faint);}
+  .caret{display:inline-block;width:7px;height:15px;background:var(--cyan);margin-left:2px;animation:blink 1s step-end infinite;vertical-align:-2px;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:88px 0;border-top:1px solid var(--border-soft);}
+  .section-head{margin-bottom:44px;}
+  .section-tag{font-family:'JetBrains Mono';font-size:12.5px;color:var(--cyan);letter-spacing:.06em;margin-bottom:10px;}
+  .section-title{font-family:'Space Grotesk';font-size:clamp(24px,3vw,34px);font-weight:700;letter-spacing:-0.01em;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+  @media (max-width:850px){.about-grid{grid-template-columns:1fr;}}
+  .about-grid p{color:var(--text-dim);line-height:1.75;font-size:15.5px;margin-bottom:16px;}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 18px;text-align:left;transition:border-color .2s, transform .2s;}
+  .stat-card:hover{border-color:var(--cyan);transform:translateY(-3px);}
+  .stat-num{font-family:'Space Grotesk';font-size:28px;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .stat-label{font-size:12.5px;color:var(--text-dim);margin-top:6px;}
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  @media (max-width:800px){.proj-grid{grid-template-columns:1fr;}}
+  .proj-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px;
+    display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;
+    transition:border-color .25s, transform .25s, box-shadow .25s;
+  }
+  .proj-card:hover{border-color:color-mix(in srgb, var(--violet) 55%, var(--border));transform:translateY(-4px);box-shadow:0 20px 40px -24px rgba(59,130,246,.35);}
+  .proj-card::before{content:"";position:absolute;inset:0;background:var(--grad);opacity:0;transition:opacity .25s;z-index:-1;filter:blur(30px);}
+  .proj-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .proj-title{font-family:'Space Grotesk';font-weight:600;font-size:19px;}
+  .proj-sub{color:var(--text-faint);font-size:13px;margin-top:3px;}
+  .proj-links{display:flex;gap:10px;}
+  .proj-links a{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-dim);transition:.2s;}
+  .proj-links a:hover{color:var(--cyan);border-color:var(--cyan);}
+  .proj-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  .proj-list li{font-size:13.8px;color:var(--text-dim);display:flex;gap:9px;line-height:1.5;}
+  .proj-list li::before{content:"";width:5px;height:5px;margin-top:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px;}
+  .badge{font-family:'JetBrains Mono';font-size:11.5px;padding:5px 10px;border-radius:6px;background:var(--bg-alt);border:1px solid var(--border);color:var(--text-dim);}
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  @media (max-width:900px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.skills-grid{grid-template-columns:1fr;}}
+  .skill-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;transition:border-color .2s, transform .2s;}
+  .skill-card:hover{border-color:var(--blue);transform:translateY(-3px);}
+  .skill-card h4{margin:0 0 14px;font-size:13px;font-family:'JetBrains Mono';color:var(--cyan);text-transform:uppercase;letter-spacing:.05em;}
+  .chip-col{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-family:'JetBrains Mono';font-size:12px;padding:6px 10px;border-radius:7px;background:var(--bg-alt);border:1px solid var(--border-soft);color:var(--text);}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  @media (max-width:850px){.contact-grid{grid-template-columns:1fr;}}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:12.5px;color:var(--text-dim);margin-bottom:7px;font-family:'JetBrains Mono';}
+  .field input, .field textarea{
+    width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;
+    color:var(--text);font-family:'Inter';font-size:14px;transition:border-color .2s;
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--cyan);}
+  .field textarea{resize:vertical;min-height:110px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:500px){.row2{grid-template-columns:1fr;}}
+  .send-btn{width:100%;justify-content:center;border:none;font-size:15px;}
+  .form-status{font-size:13px;color:var(--cyan);margin-top:12px;font-family:'JetBrains Mono';min-height:18px;}
+
+  .contact-cards{display:flex;flex-direction:column;gap:12px;}
+  .contact-card{
+    display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);
+    border-radius:12px;padding:16px 18px;transition:border-color .2s, transform .2s;
+  }
+  .contact-card:hover{border-color:var(--violet);transform:translateX(4px);}
+  .contact-card .ic{width:40px;height:40px;border-radius:10px;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;}
+  .contact-card .lbl{font-size:11.5px;color:var(--text-faint);font-family:'JetBrains Mono';}
+  .contact-card .val{font-size:14.5px;font-weight:500;margin-top:2px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--border-soft);padding:32px 0;}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-inner p{color:var(--text-faint);font-size:13px;margin:0;font-family:'JetBrains Mono';}
+  .footer-icons{display:flex;gap:12px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span>your.name<span style="color:var(--text-faint)">()</span></div>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <div class="icon-btn" id="themeToggle" role="button" aria-label="Toggle theme"><i data-lucide="moon" width="18" height="18"></i></div>
+      <div class="icon-btn mobile-toggle" id="menuToggle" role="button" aria-label="Toggle menu"><i data-lucide="menu" width="18" height="18"></i></div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span>Open to remote & relocation</div>
+      <h1 class="headline">Building <span class="grad">Intelligent Systems</span> &amp; Scalable Full‑Stack Applications</h1>
+      <p class="sub">I design and ship AI-powered products end to end — from RAG pipelines and LLM orchestration to the interfaces people actually use. I care about turning ambiguous problems into reliable, well-tested systems.</p>
+      <div class="cta-row">
+        <a href="#projects" class="btn btn-primary"><i data-lucide="rocket" width="16" height="16"></i>View Projects</a>
+        <a href="#" class="btn btn-ghost"><i data-lucide="download" width="16" height="16"></i>Download Resume</a>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="term-bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="term-title">engineer.profile.py</span></div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="section-tag">// 01 — about</div>
+      <h2 class="section-title" style="margin-bottom:20px;">A quick overview</h2>
+      <p>I'm an AI/Software Engineer who enjoys the full arc of a product: framing the problem, prototyping with LLMs and agentic workflows, and hardening the result into something people can rely on in production.</p>
+      <p>My approach is pragmatic — I reach for the simplest architecture that solves the real problem, instrument everything, and iterate from data rather than assumptions. I'm most energized by systems that combine retrieval, reasoning, and automation to remove real friction from someone's day.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">3+ yrs</div><div class="stat-label">Experience</div></div>
+      <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Projects Completed</div></div>
+      <div class="stat-card"><div class="stat-num">AI/RAG</div><div class="stat-label">Core Focus</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">// 02 — projects</div>
+      <h2 class="section-title">Featured Projects</h2>
+    </div>
+    <div class="proj-grid">
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div><div class="proj-title">DocuMind RAG</div><div class="proj-sub">Retrieval-augmented Q&A over private document sets</div></div>
+          <div class="proj-links"><a href="#" aria-label="GitHub repository"><i data-lucide="github" width="16" height="16"></i></a><a href="#" aria-label="Live demo"><i data-lucide="external-link" width="16" height="16"></i></a></div>
+        </div>
+        <ul class="proj-list">
+          <li>Cut average answer latency by 40% with a re-ranking + caching layer</li>
+          <li>Chunking strategy tuned per document type, improving retrieval precision</li>
+          <li>Deployed as an internal tool used by 3 teams daily</li>
+        </ul>
+        <div class="badges"><span class="badge">Python</span><span class="badge">Gemini API</span><span class="badge">ChromaDB</span><span class="badge">FastAPI</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div><div class="proj-title">Workflow Orchestrator</div><div class="proj-sub">Automated backend pipelines with n8n + custom nodes</div></div>
+          <div class="proj-links"><a href="#" aria-label="GitHub repository"><i data-lucide="github" width="16" height="16"></i></a><a href="#" aria-label="Live demo"><i data-lucide="external-link" width="16" height="16"></i></a></div>
+        </div>
+        <ul class="proj-list">
+          <li>Replaced 5 manual ops processes with a single automated flow</li>
+          <li>Built custom n8n nodes to integrate an internal CRM</li>
+          <li>Added structured logging and alerting for failure recovery</li>
+        </ul>
+        <div class="badges"><span class="badge">n8n</span><span class="badge">Node.js</span><span class="badge">PostgreSQL</span><span class="badge">Docker</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div><div class="proj-title">Signal Dashboard</div><div class="proj-sub">Real-time analytics dashboard for product metrics</div></div>
+          <div class="proj-links"><a href="#" aria-label="GitHub repository"><i data-lucide="github" width="16" height="16"></i></a><a href="#" aria-label="Live demo"><i data-lucide="external-link" width="16" height="16"></i></a></div>
+        </div>
+        <ul class="proj-list">
+          <li>Streamed live events via WebSockets to a React front end</li>
+          <li>Designed a component library reused across 3 internal tools</li>
+          <li>Reduced dashboard load time from 4.2s to 900ms</li>
+        </ul>
+        <div class="badges"><span class="badge">React</span><span class="badge">TypeScript</span><span class="badge">Tailwind</span><span class="badge">WebSockets</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div><div class="proj-title">PromptOps CLI</div><div class="proj-sub">Version control & eval tooling for LLM prompts</div></div>
+          <div class="proj-links"><a href="#" aria-label="GitHub repository"><i data-lucide="github" width="16" height="16"></i></a><a href="#" aria-label="Live demo"><i data-lucide="external-link" width="16" height="16"></i></a></div>
+        </div>
+        <ul class="proj-list">
+          <li>Diff-based prompt versioning with automated regression evals</li>
+          <li>Adopted by a 6-person team to catch prompt regressions pre-deploy</li>
+          <li>Published as an open-source CLI with 100+ stars</li>
+        </ul>
+        <div class="badges"><span class="badge">Python</span><span class="badge">OpenAI API</span><span class="badge">Typer</span><span class="badge">GitHub Actions</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">// 03 — skills</div>
+      <h2 class="section-title">Technical Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h4>Languages & Core</h4>
+        <div class="chip-col"><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">SQL</span></div>
+      </div>
+      <div class="skill-card">
+        <h4>AI / ML & Orchestration</h4>
+        <div class="chip-col"><span class="chip">LLMs</span><span class="chip">Gemini API</span><span class="chip">OpenAI API</span><span class="chip">RAG</span><span class="chip">ChromaDB</span><span class="chip">n8n</span></div>
+      </div>
+      <div class="skill-card">
+        <h4>Frontend / Frameworks</h4>
+        <div class="chip-col"><span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Tailwind CSS</span><span class="chip">Streamlit</span></div>
+      </div>
+      <div class="skill-card">
+        <h4>Backend & Tools</h4>
+        <div class="chip-col"><span class="chip">REST APIs</span><span class="chip">Git</span><span class="chip">Docker</span><span class="chip">Postman</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">// 04 — contact</div>
+      <h2 class="section-title">Let's Connect</h2>
+    </div>
+    <div class="contact-grid">
+      <form id="contactForm">
+        <div class="row2">
+          <div class="field"><label for="name">Name</label><input id="name" type="text" placeholder="Your name" required /></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com" required /></div>
+        </div>
+        <div class="field"><label for="subject">Subject</label><input id="subject" type="text" placeholder="What's this about?" required /></div>
+        <div class="field"><label for="message">Message</label><textarea id="message" placeholder="Tell me a bit about the project or role..." required></textarea></div>
+        <button type="submit" class="btn btn-primary send-btn"><i data-lucide="send" width="16" height="16"></i><span id="sendLabel">Send Message</span></button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+
+      <div class="contact-cards">
+        <a class="contact-card" href="mailto:your.email@example.com">
+          <div class="ic"><i data-lucide="mail" width="18" height="18"></i></div>
+          <div><div class="lbl">Email</div><div class="val">your.email@example.com</div></div>
+        </a>
+        <a class="contact-card" href="https://github.com/yourusername" target="_blank" rel="noopener">
+          <div class="ic"><i data-lucide="github" width="18" height="18"></i></div>
+          <div><div class="lbl">GitHub</div><div class="val">github.com/yourusername</div></div>
+        </a>
+        <a class="contact-card" href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">
+          <div class="ic"><i data-lucide="linkedin" width="18" height="18"></i></div>
+          <div><div class="lbl">LinkedIn</div><div class="val">linkedin.com/in/yourusername</div></div>
+        </a>
+        <a class="contact-card" href="https://x.com/yourusername" target="_blank" rel="noopener">
+          <div class="ic"><i data-lucide="twitter" width="18" height="18"></i></div>
+          <div><div class="lbl">Twitter / X</div><div class="val">@yourusername</div></div>
+        </a>
+        <a class="contact-card" href="https://wa.me/2340000000000" target="_blank" rel="noopener">
+          <div class="ic"><i data-lucide="phone" width="18" height="18"></i></div>
+          <div><div class="lbl">Phone / WhatsApp</div><div class="val">+234 000 000 0000</div></div>
+        </a>
+        <div class="contact-card" style="cursor:default;">
+          <div class="ic"><i data-lucide="map-pin" width="18" height="18"></i></div>
+          <div><div class="lbl">Location</div><div class="val">Lagos, Nigeria (Open to Remote / Relocation)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <p id="copyright">&copy; 2026 Your Name. All rights reserved.</p>
+    <div class="footer-icons">
+      <div class="icon-btn"><a href="https://github.com/yourusername" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github" width="16" height="16"></i></a></div>
+      <div class="icon-btn"><a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin" width="16" height="16"></i></a></div>
+      <div class="icon-btn"><a href="https://x.com/yourusername" target="_blank" rel="noopener" aria-label="Twitter"><i data-lucide="twitter" width="16" height="16"></i></a></div>
+      <div class="icon-btn"><a href="mailto:your.email@example.com" aria-label="Email"><i data-lucide="mail" width="16" height="16"></i></a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+
+  // theme toggle (default dark)
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    themeToggle.innerHTML = isLight ? '<i data-lucide="sun" width="18" height="18"></i>' : '<i data-lucide="moon" width="18" height="18"></i>';
+    lucide.createIcons();
+  });
+
+  // mobile menu
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // footer year
+  document.getElementById('copyright').innerHTML = `&copy; ${new Date().getFullYear()} Your Name. All rights reserved.`;
+
+  // contact form fake submit with feedback
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  const sendLabel = document.getElementById('sendLabel');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendLabel.textContent = 'Sending...';
+    status.textContent = '';
+    setTimeout(() => {
+      sendLabel.textContent = 'Send Message';
+      status.textContent = '> Message sent. I\\'ll get back to you soon.';
+      form.reset();
+    }, 900);
+  });
+
+  // terminal typing animation (signature element)
+  const termLines = [
+    { html: '<span class="key">import</span> <span class="str">engineer</span> <span class="com">as me</span>' , pause: 250},
+    { html: '', pause: 150 },
+    { html: 'me.<span class="key">stack</span> = [<span class="str">"Python"</span>, <span class="str">"LLMs"</span>, <span class="str">"React"</span>]', pause: 200 },
+    { html: 'me.<span class="key">focus</span> = <span class="str">"RAG systems & agentic workflows"</span>', pause: 200 },
+    { html: 'me.<span class="key">status</span> = <span class="str">"open to opportunities"</span>', pause: 200 },
+    { html: '', pause: 150 },
+    { html: '<span class="l1">$</span> me.<span class="key">ship</span>()', pause: 100 },
+    { html: '<span class="com">&gt;&gt; deploying to production...</span>', pause: 400 },
+    { html: '<span class="com">&gt;&gt; done in 1.2s ✓</span>', pause: 100 },
+  ];
+  const termBody = document.getElementById('termBody');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  async function typeTerminal(){
+    termBody.innerHTML = '';
+    if (prefersReduced){
+      termBody.innerHTML = termLines.map(l => `<div>${l.html || '&nbsp;'}</div>`).join('');
+      return;
+    }
+    for (const line of termLines){
+      const div = document.createElement('div');
+      termBody.appendChild(div);
+      const target = line.html;
+      if (!target){ div.innerHTML = '&nbsp;'; await sleep(line.pause); continue; }
+      // strip tags into a typeable plain text while preserving markup reveal
+      div.innerHTML = '';
+      const temp = document.createElement('div');
+      temp.innerHTML = target;
+      await typeNode(div, temp);
+      await sleep(line.pause);
+    }
+    const caret = document.createElement('span');
+    caret.className = 'caret';
+    termBody.appendChild(caret);
+  }
+
+  function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+  async function typeNode(container, sourceNode){
+    for (const node of Array.from(sourceNode.childNodes)){
+      if (node.nodeType === Node.TEXT_NODE){
+        for (const ch of node.textContent){
+          container.append(ch);
+          await sleep(14);
+        }
+      } else {
+        const span = document.createElement(node.tagName);
+        span.className = node.className;
+        container.appendChild(span);
+        await typeNode(span, node);
+      }
+    }
+  }
+
+  typeTerminal();
+  window.addEventListener('resize', () => {}); // reserved
+</script>
+
+</body>
+</html>
